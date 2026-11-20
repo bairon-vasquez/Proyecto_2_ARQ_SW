@@ -33,6 +33,13 @@ class RepositorioPostulacionesEnMemoria:
                 return postulacion
         return None
 
+    def buscar_ultima_postulacion(self, estudiante_id: str) -> Postulacion | None:
+        propias = [
+            p for p in self._postulaciones.values() if p.estudiante_id == estudiante_id
+        ]
+        # Si dos fechas empatan gana la guardada después (max devuelve la primera).
+        return max(reversed(propias), key=lambda p: p.fecha, default=None)
+
     def tareas_listas(self, ahora: datetime) -> list[TareaPendiente]:
         return [t for t in self._tareas.values() if t.esta_lista(ahora)]
 
