@@ -1,0 +1,38 @@
+@startuml cu01-postularse
+title ESC-01 · CU-01 Postularse con el SIA caído (EAC-02, ADR-003)
+actor Estudiante
+participant "Aplicación web" as Web
+participant "API de prácticas" as API
+database PostgreSQL as BD
+participant "Procesador de tareas" as Worker
+participant SIA
+participant "Servicio de correo" as Correo
+
+Estudiante -> Web : completa y envía la postulación
+Web -> API : POST /postulaciones (JSON/HTTPS)
+API -> BD : guarda Postulacion "pendiente de verificación" + TareaPendiente (una transacción)
+BD --> API : confirmado
+API --> Web : 202 Recibida (< 2 s)
+Web --> Estudiante : "postulación recibida, en verificación"
+note right of API : EAC-02: la confirmación no espera al SIA
+
+== Verificación en segundo plano ==
+loop cada 15 s, hasta 8 intentos
+  Worker -> BD : toma tarea pendiente
+  Worker -> SIA : consultar requisitos (HTTPS, máx. 4 s)
+  alt [responde en 4 s]
+    SIA --> Worker : datos académicos
+    Worker -> BD : marca "verificada" o "no cumple requisitos"
+    opt [el estudiante tiene correo registrado]
+      Worker -> Correo : notificar resultado (SMTP)
+    end
+  else [no responde en 4 s o error]
+    Worker -> BD : reprograma con espera creciente (máx. 5 min)
+  end
+end
+alt [agotó 8 intentos]
+  Worker -> BD : marca tarea "fallida"
+  Worker -> Correo : alertar al director de programa (SMTP)
+end
+note over Worker, SIA : Ninguna postulación se pierde: queda en BD hasta verificarse
+@enduml

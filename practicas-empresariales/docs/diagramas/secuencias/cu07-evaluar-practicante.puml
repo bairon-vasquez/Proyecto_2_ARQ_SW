@@ -1,0 +1,34 @@
+@startuml cu07-evaluar-practicante
+title ESC-02 · CU-07 Evaluar al practicante por enlace (EAC-03, ADR-004, ADR-006)
+actor "Supervisor de empresa" as Sup
+participant "Aplicación web" as Web
+participant "API de prácticas" as API
+database PostgreSQL as BD
+participant "Procesador de tareas" as Worker
+participant "Servicio de correo" as Correo
+
+Sup -> Web : abre el enlace recibido por correo
+Web -> API : GET /enlaces/{identificador} (JSON/HTTPS)
+API -> BD : busca por hash del identificador
+alt [enlace válido: existe, sin usar y con menos de 15 días]
+  BD --> API : enlace y práctica asociada
+  API --> Web : 200 formulario de evaluación
+  Sup -> Web : completa la evaluación
+  Web -> API : POST /enlaces/{identificador}/evaluacion
+  API -> BD : guarda Evaluacion, marca enlace "usado" y registra en bitácora (una transacción)
+  API --> Web : 201 Recibida
+  Web --> Sup : "gracias, evaluación registrada"
+else [enlace usado, vencido o alterado]
+  API -> BD : registra intento en bitácora (fecha, hora, dirección de origen)
+  API -> BD : crea TareaPendiente de aviso al docente asesor
+  API --> Web : 404 respuesta genérica, sin datos del practicante
+  Web --> Sup : "enlace no válido"
+end
+
+== Aviso en segundo plano ==
+opt [existe tarea de aviso]
+  Worker -> BD : toma tarea
+  Worker -> Correo : avisar al docente asesor (SMTP)
+end
+note over API, BD : EAC-03: rechazo 100 %, intento registrado en < 1 min, aviso en < 10 min
+@enduml

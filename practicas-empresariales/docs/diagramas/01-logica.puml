@@ -1,0 +1,88 @@
+@startuml 01-logica
+title Vista lógica: modelo de dominio del Sistema de Gestión de Prácticas Empresariales
+hide methods
+skinparam classAttributeIconSize 0
+
+class Estudiante {
+  documento
+  programa
+}
+class Programa {
+  nombre
+}
+class VersionReglas {
+  horas mínimas
+  requisitos
+  vigencia desde
+  estado
+}
+class Postulacion {
+  fecha
+  estado
+  autorización de datos
+}
+class Practica {
+  estado
+  fecha inicio
+  fecha fin
+}
+class DocenteAsesor {
+  nombre
+}
+class Empresa {
+  nombre
+  convenio vigente
+}
+class SupervisorEmpresa {
+  nombre
+  correo
+}
+class RegistroHoras {
+  semana
+  horas
+  estado
+}
+class Evaluacion {
+  calificación
+  fecha
+}
+class Acta {
+  versión
+  estado
+  huella
+}
+class PlantillaActa {
+  versión
+}
+class EnlaceAcceso {
+  vence
+  usado
+}
+class TareaPendiente {
+  tipo
+  estado
+  intentos
+}
+class RegistroBitacora {
+  fecha
+  evento
+  actor
+}
+
+Estudiante "1" -- "0..*" Postulacion
+Programa "1" -- "0..*" Estudiante
+Programa "1" -- "1..*" VersionReglas
+Postulacion "1" -- "0..1" Practica
+Practica "*" -- "1" VersionReglas : se rige por
+Practica "*" -- "1" DocenteAsesor
+Practica "*" -- "1" Empresa
+Empresa "1" -- "1..*" SupervisorEmpresa
+Practica "1" -- "0..*" RegistroHoras
+Practica "1" -- "0..1" Evaluacion
+Practica "1" -- "0..*" Acta
+Acta "*" -- "1" PlantillaActa
+SupervisorEmpresa "1" -- "0..*" EnlaceAcceso
+EnlaceAcceso "*" -- "1" Practica
+Postulacion "1" -- "0..*" TareaPendiente
+Practica "1" -- "0..*" RegistroBitacora
+@enduml

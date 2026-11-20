@@ -1,0 +1,27 @@
+@startuml contexto
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title Contexto del sistema: Sistema de Gestión de Prácticas Empresariales
+
+Person(estudiante, "Estudiante", "Se postula, registra horas y consulta el estado de su práctica")
+Person(docente, "Docente asesor", "Revisa horas y avance, solicita y aprueba el acta")
+Person(director, "Director de programa", "Aprueba postulaciones, asigna asesor, configura reglas y consolida")
+Person(supervisor, "Supervisor de empresa", "Valida horas y evalúa al practicante sin cuenta")
+Person(admin, "Administrador del sistema", "Migra prácticas en curso y opera la configuración")
+
+System(sgpe, "Sistema de Gestión de Prácticas Empresariales", "Gestiona postulación, asesor, horas, evaluación y acta final")
+
+System_Ext(sia, "SIA", "Sistema de Información Académica: datos y requisitos del estudiante")
+System_Ext(idp, "Proveedor de identidad institucional", "Autentica con la cuenta institucional")
+System_Ext(correo, "Servicio de correo institucional", "Envía enlaces, recordatorios y notificaciones")
+
+Rel(estudiante, sgpe, "Se postula, registra horas y consulta estado", "HTTPS")
+Rel(docente, sgpe, "Revisa horas y aprueba el acta", "HTTPS")
+Rel(director, sgpe, "Decide postulaciones y configura reglas", "HTTPS")
+Rel(supervisor, sgpe, "Valida horas y evalúa por enlace", "HTTPS")
+Rel(admin, sgpe, "Ejecuta la migración inicial", "Línea de comandos")
+
+Rel(sgpe, sia, "Consulta requisitos académicos", "HTTPS / REST")
+Rel(sgpe, idp, "Autentica usuarios internos", "OpenID Connect")
+Rel(sgpe, correo, "Envía notificaciones", "SMTP")
+@enduml

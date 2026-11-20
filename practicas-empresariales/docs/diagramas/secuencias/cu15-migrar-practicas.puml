@@ -1,0 +1,22 @@
+@startuml cu15-migrar-practicas
+title ESC-06 · CU-15 Migrar prácticas en curso desde Excel (ADR-009)
+actor "Administrador del sistema" as Adm
+participant "Comando de migración" as Mig
+database PostgreSQL as BD
+
+Adm -> Mig : migrar --archivo plantilla.xlsx --simulacion (CLI)
+loop [por cada fila de la plantilla]
+  Mig -> Mig : valida formato y reglas del programa
+end
+Mig --> Adm : reporte de errores por docente asesor
+
+break [el reporte tiene errores]
+  Adm -> Adm : los docentes corrigen la plantilla
+end
+
+Adm -> Mig : migrar --archivo plantilla.xlsx --cargar
+loop [por cada práctica válida]
+  Mig -> BD : crea práctica por el caso de uso, asigna versión de reglas vigente y registra en bitácora
+end
+Mig --> Adm : reporte final de migradas y pendientes
+@enduml

@@ -1,0 +1,23 @@
+@startuml cu12-configurar-reglas
+title ESC-05 · CU-12 Configurar reglas de un programa nuevo (EAC-01, ADR-007)
+actor "Director de programa" as Dir
+participant "Aplicación web" as Web
+participant "API de prácticas" as API
+database PostgreSQL as BD
+
+Dir -> Web : crea reglas del programa (horas mínimas, requisitos)
+Web -> API : POST /programas/{id}/reglas (JSON/HTTPS)
+API -> BD : guarda VersionReglas en estado "borrador"
+API --> Web : 201 borrador creado
+
+Dir -> Web : solicita publicar
+Web -> API : POST /programas/{id}/reglas/{version}/publicacion
+API -> API : valida que no haya reglas contradictorias
+alt [validación correcta]
+  API -> BD : publica con vigencia desde el periodo siguiente y registra en bitácora
+  API --> Web : 200 publicada
+else [reglas contradictorias]
+  API --> Web : 422 detalle de las contradicciones
+end
+note over BD : Las prácticas en curso conservan su versión: 0 cambios de estado o de reglas
+@enduml

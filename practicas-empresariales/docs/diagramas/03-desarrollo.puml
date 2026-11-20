@@ -1,0 +1,69 @@
+@startuml 03-desarrollo
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Vista de desarrollo: componentes de la API de prácticas (Clean Architecture)
+
+Container(web, "Aplicación web", "Angular", "Interfaz de usuario")
+ContainerDb(bd, "PostgreSQL", "Base de datos relacional")
+ContainerDb(docs, "Almacenamiento de documentos", "Almacenamiento institucional")
+System_Ext(idp, "Proveedor de identidad institucional", "OpenID Connect")
+
+Container_Boundary(api, "Backend: API de prácticas [monolito modular, ADR-001]. Mismo código que ejecuta el Procesador de tareas y el Comando de migración") {
+  Component(ctrl, "Controlador REST", "Adaptador de entrada", "Traduce peticiones HTTP a casos de uso (infraestructura)")
+  Component(auth, "Política de autorización", "Aplicación", "Rol y pertenencia por caso de uso, negación por defecto (ADR-005)")
+
+  Component(mpost, "Módulo Postulaciones", "Casos de uso", "CU-01, CU-02, CU-03")
+  Component(mhoras, "Módulo Horas", "Casos de uso", "CU-04, CU-05, CU-06")
+  Component(meval, "Módulo Evaluaciones", "Casos de uso", "CU-07, CU-08")
+  Component(macta, "Módulo Actas", "Casos de uso", "CU-09, CU-10")
+  Component(mreglas, "Módulo Reglas", "Casos de uso", "CU-12 (ADR-007)")
+  Component(mseg, "Módulo Seguimiento", "Casos de uso", "CU-11, CU-13, CU-14")
+
+  Component(dominio, "Dominio", "Entidades y reglas", "Practica, Postulacion, Acta, VersionReglas, EnlaceAcceso")
+
+  Component(pto, "Puertos", "Interfaces", "ConsultaAcademica, Identidad, Notificaciones, Repositorios, Documentos, GeneradorPdf, Bitacora")
+
+  Component(asia, "Adaptador SIA", "Infraestructura", "Implementa ConsultaAcademica sobre la API REST del SIA")
+  Component(acorreo, "Adaptador de correo", "Infraestructura", "Implementa Notificaciones sobre SMTP (lo usa el Procesador de tareas)")
+  Component(aid, "Adaptador de identidad", "Infraestructura", "Implementa Identidad con OpenID Connect")
+  Component(apg, "Adaptador PostgreSQL", "Infraestructura", "Repositorios, tareas pendientes y bitácora")
+  Component(adoc, "Adaptador de documentos", "Infraestructura", "Implementa Documentos sobre el almacenamiento institucional")
+  Component(apdf, "Generador de PDF", "Infraestructura", "Llena la plantilla del acta y produce el PDF")
+}
+
+Rel(web, ctrl, "Invoca", "JSON / HTTPS")
+Rel(ctrl, auth, "Consulta permisos")
+Rel(ctrl, mpost, "Invoca")
+Rel(ctrl, mhoras, "Invoca")
+Rel(ctrl, meval, "Invoca")
+Rel(ctrl, macta, "Invoca")
+Rel(ctrl, mreglas, "Invoca")
+Rel(ctrl, mseg, "Invoca")
+
+Rel(mpost, mreglas, "Usa")
+Rel(mhoras, mreglas, "Usa")
+Rel(meval, mreglas, "Usa")
+Rel(macta, mhoras, "Usa")
+Rel(macta, meval, "Usa")
+Rel(macta, mreglas, "Usa")
+Rel(mseg, mpost, "Usa")
+Rel(mseg, mhoras, "Usa")
+Rel(mseg, meval, "Usa")
+Rel(mseg, macta, "Usa")
+
+Rel(mpost, dominio, "Usa")
+Rel(macta, dominio, "Usa")
+Rel(mpost, pto, "Declara y usa")
+Rel(macta, pto, "Declara y usa")
+
+Rel(asia, pto, "Implementa")
+Rel(acorreo, pto, "Implementa")
+Rel(aid, pto, "Implementa")
+Rel(apg, pto, "Implementa")
+Rel(adoc, pto, "Implementa")
+Rel(apdf, pto, "Implementa")
+
+Rel(aid, idp, "Valida identidad", "OpenID Connect")
+Rel(apg, bd, "Lee y escribe", "SQL")
+Rel(adoc, docs, "Guarda y lee PDF", "HTTPS")
+@enduml

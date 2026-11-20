@@ -1,0 +1,39 @@
+@startuml cu10-aprobar-acta
+title ESC-04 · CU-10 Aprobar el acta electrónicamente (ADR-005, ADR-006, ADR-008)
+actor "Docente asesor" as Doc
+actor "Director de programa" as Dir
+participant "Aplicación web" as Web
+participant "API de prácticas" as API
+database PostgreSQL as BD
+participant "Almacenamiento de documentos" as Docs
+participant "Procesador de tareas" as Worker
+participant "Servicio de correo" as Correo
+
+Doc -> Web : aprueba el acta
+Web -> API : POST /actas/{id}/aprobacion-asesor (JSON/HTTPS)
+API -> API : verifica rol "docente asesor" y que la práctica sea de su practicante
+alt [no tiene permiso]
+  API -> BD : registra intento en bitácora
+  API --> Web : 403 acceso denegado
+else [autorizado]
+  API -> BD : guarda aprobación del asesor y registra en bitácora (quién, cuándo, versión)
+  API --> Web : 200 pendiente de director
+end
+
+Dir -> Web : aprueba el acta
+Web -> API : POST /actas/{id}/aprobacion-director
+API -> API : verifica rol "director de programa"
+alt [aprueba]
+  API -> Docs : guarda PDF con huella SHA-256 (inmutable)
+  API -> BD : marca Acta "aprobada", registra en bitácora y crea TareaPendiente de aviso
+  API --> Web : 200 acta aprobada
+else [devuelve con observaciones]
+  API -> BD : marca Acta "devuelta" y registra en bitácora
+  API --> Web : 200 devuelta al asesor
+end
+
+opt [acta aprobada]
+  Worker -> BD : toma tarea
+  Worker -> Correo : notificar al estudiante (SMTP)
+end
+@enduml

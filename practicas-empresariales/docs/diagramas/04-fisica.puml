@@ -1,0 +1,40 @@
+@startuml 04-fisica
+!include <C4/C4_Deployment>
+LAYOUT_WITH_LEGEND()
+title Vista física: despliegue en la infraestructura institucional
+
+Person(usuario, "Usuarios", "Estudiantes, docentes, directores y supervisores")
+
+Deployment_Node(cdd, "Centro de datos de la Universidad", "Infraestructura institucional (RT-01)") {
+  Deployment_Node(sweb, "Servidor web", "Linux, Nginx") {
+    Container(web, "Aplicación web", "Angular", "Archivos estáticos de la interfaz")
+  }
+  Deployment_Node(sapp, "Servidor de aplicaciones", "Linux, Docker") {
+    Container(api, "API de prácticas", "Python", "Monolito modular")
+    Container(worker, "Procesador de tareas", "Python", "Tareas pendientes con reintentos")
+  }
+  Deployment_Node(sbd, "Servidor de base de datos", "Linux") {
+    ContainerDb(bd, "PostgreSQL", "Base de datos relacional", "Solo accesible desde la red interna")
+  }
+  Deployment_Node(salm, "Almacenamiento institucional", "Almacenamiento en el país (RN-01, RN-02)") {
+    ContainerDb(docs, "Almacenamiento de documentos", "Archivos", "Actas aprobadas en PDF")
+  }
+  Deployment_Node(sadm, "Estación de administración", "Acceso restringido") {
+    Container(migra, "Comando de migración", "Python", "Se ejecuta una sola vez")
+  }
+}
+
+System_Ext(sia, "SIA", "Sistema de Información Académica")
+System_Ext(idp, "Proveedor de identidad", "OpenID Connect")
+System_Ext(correo, "Servicio de correo institucional", "SMTP")
+
+Rel(usuario, web, "Usa", "HTTPS")
+Rel(web, api, "Invoca", "JSON / HTTPS")
+Rel(api, bd, "Lee y escribe", "SQL, red interna")
+Rel(api, docs, "Guarda y lee", "Red interna")
+Rel(api, idp, "Valida identidad", "OpenID Connect")
+Rel(worker, bd, "Sondea tareas", "SQL, red interna")
+Rel(worker, sia, "Consulta", "HTTPS")
+Rel(worker, correo, "Envía", "SMTP")
+Rel(migra, bd, "Carga única", "SQL, red interna")
+@enduml

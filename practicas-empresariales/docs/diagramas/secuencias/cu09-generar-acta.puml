@@ -1,0 +1,21 @@
+@startuml cu09-generar-acta
+title ESC-03 · CU-09 Generar el acta final (EAC-04, ADR-008)
+actor "Docente asesor" as Doc
+participant "Aplicación web" as Web
+participant "API de prácticas" as API
+database PostgreSQL as BD
+
+Doc -> Web : solicita generar el acta
+Web -> API : POST /practicas/{id}/acta (JSON/HTTPS)
+API -> BD : lee práctica, horas validadas, evaluación y versión de reglas
+BD --> API : datos
+break [faltan horas validadas o evaluación]
+  API --> Web : 422 "requisitos pendientes" con lo que falta
+  Web --> Doc : muestra qué falta
+end
+API -> API : llena la plantilla vigente y genera el PDF (síncrono)
+API -> BD : guarda Acta "borrador" con huella y registra en bitácora
+API --> Web : 201 acta lista para aprobación (< 10 s, p95)
+Web --> Doc : vista previa del acta
+note over API : EAC-04: sin transcripción manual, CPU < 70 %
+@enduml

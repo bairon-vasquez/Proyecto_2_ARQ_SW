@@ -1,0 +1,39 @@
+@startuml 02-procesos
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Vista de procesos: contenedores del Sistema de Gestión de Prácticas Empresariales
+
+Person(estudiante, "Estudiante")
+Person(docente, "Docente asesor")
+Person(director, "Director de programa")
+Person(supervisor, "Supervisor de empresa")
+Person(admin, "Administrador del sistema")
+
+System_Ext(sia, "SIA", "Datos y requisitos académicos")
+System_Ext(idp, "Proveedor de identidad institucional", "OpenID Connect")
+System_Ext(correo, "Servicio de correo institucional", "SMTP")
+
+System_Boundary(sgpe, "Sistema de Gestión de Prácticas Empresariales") {
+  Container(web, "Aplicación web", "Angular", "Interfaz de estudiantes, docentes, directores y supervisores")
+  Container(api, "API de prácticas", "Python, monolito modular", "Casos de uso, reglas, autorización y generación de actas (ADR-001)")
+  Container(worker, "Procesador de tareas", "Python", "Procesa tareas pendientes con reintentos: consulta al SIA y envío de correos (ADR-003)")
+  ContainerDb(bd, "PostgreSQL", "Base de datos relacional", "Prácticas, reglas, tareas pendientes y bitácora (ADR-002, 006)")
+  ContainerDb(docs, "Almacenamiento de documentos", "Almacenamiento institucional", "Actas aprobadas en PDF, inmutables (ADR-008)")
+  Container(migra, "Comando de migración", "Python, línea de comandos", "Carga única de prácticas en curso desde Excel (ADR-009)")
+}
+
+Rel(estudiante, web, "Usa", "HTTPS")
+Rel(docente, web, "Usa", "HTTPS")
+Rel(director, web, "Usa", "HTTPS")
+Rel(supervisor, web, "Usa por enlace de un solo uso", "HTTPS")
+Rel(admin, migra, "Ejecuta", "CLI")
+
+Rel(web, api, "Invoca", "JSON / HTTPS")
+Rel(api, idp, "Valida identidad", "OpenID Connect")
+Rel(api, bd, "Lee y escribe", "SQL")
+Rel(api, docs, "Guarda y lee actas", "Sistema de archivos / HTTPS")
+Rel(worker, bd, "Sondea tareas y actualiza estado", "SQL")
+Rel(worker, sia, "Consulta requisitos", "HTTPS / REST")
+Rel(worker, correo, "Envía notificaciones", "SMTP")
+Rel(migra, bd, "Crea prácticas por los casos de uso", "SQL")
+@enduml
