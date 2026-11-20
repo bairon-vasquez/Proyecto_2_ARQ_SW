@@ -19,6 +19,7 @@ Traza: [spec.md](spec.md) · [drivers.md](../../docs/drivers.md) · [arquitectur
 |---|---|---|
 | dominio | `Postulacion`, `EstadoPostulacion` | Entidad y sus estados válidos y transiciones |
 | aplicacion | `PostularseAPractica` (caso de uso) | Valida rol, autorización de datos, unicidad y reglas; guarda postulación y tarea |
+| aplicacion | `ConsultarEstadoPostulacion` (caso de uso) | El estudiante consulta el estado de su última postulación y, si no cumple, los requisitos que le faltan (decisión sobre H-04: consulta en la aplicación) |
 | aplicacion | `VerificarPostulacion` (caso de uso) | Procesa una tarea: consulta al SIA, actualiza estado, reprograma o marca fallida |
 | aplicacion | `PostulacionEntrada`, `PostulacionSalida` (DTO) | Entrada y salida de los casos de uso |
 | aplicacion/puertos | `ConsultaAcademica`, `RepositorioPostulaciones`, `Bitacora` | Contratos que declara la aplicación |
@@ -32,7 +33,7 @@ Ver [secuencia de ESC-01](../../docs/diagramas/secuencias/cu01-postularse.puml):
 
 ## 4. Datos que se guardan
 
-`Postulacion`: estudiante, programa, empresa, supervisor, fecha, estado, autorización de datos, versión de reglas. `TareaPendiente`: postulación, tipo, estado, intentos, próximo intento.
+`Postulacion`: estudiante, programa, empresa, supervisor, fecha, estado, autorización de datos, versión de reglas, requisitos faltantes (los que devolvió el SIA cuando no cumple). `TareaPendiente`: postulación, tipo, estado, intentos, próximo intento.
 
 ## 5. Fuera de alcance
 
@@ -40,6 +41,7 @@ Ver [secuencia de ESC-01](../../docs/diagramas/secuencias/cu01-postularse.puml):
 - PostgreSQL real, bitácora persistente y envío de correo real (adaptadores en memoria). El aviso al director cuando la tarea falla (spec, último escenario) queda como estado `fallida` observable; el envío real del correo no se implementa.
 - Aprobación o rechazo del director ([CU-02](../../docs/drivers.md#cu-02)) y asignación de asesor ([CU-03](../../docs/drivers.md#cu-03)).
 - Verificación de convenio vigente de la empresa.
+- Aviso por correo al estudiante con el resultado: se resuelve con la consulta en la aplicación; el correo se evalúa en [CU-08](../../docs/drivers.md#cu-08).
 
 ## 6. Decisiones pendientes
 

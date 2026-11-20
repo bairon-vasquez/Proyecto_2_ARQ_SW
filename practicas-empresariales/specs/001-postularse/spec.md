@@ -23,8 +23,7 @@ Característica: Postularse a la práctica empresarial
     Dado que el SIA indica que al estudiante le faltan requisitos
     Cuando envía su postulación
     Entonces la postulación queda en estado "no cumple requisitos"
-    Y se le indica qué requisito falta
-    # [NECESITA ACLARACIÓN: ¿cómo se entera el estudiante del requisito faltante, si la verificación es asíncrona? (consulta del estado en la aplicación, correo u otro). Hallazgo H-04 de validacion.md]
+    Y el requisito que falta queda disponible para que el estudiante lo consulte
 
   Escenario: El estudiante no autoriza el tratamiento de datos
     Dado que el estudiante no autorizó el tratamiento de sus datos personales
@@ -66,3 +65,20 @@ Característica: Postularse a la práctica empresarial
     Entonces la tarea de verificación pasa al estado "fallida"
     Y la postulación sigue en "pendiente de verificación"
     Y la tarea fallida queda visible para el director de programa (el envío real del aviso por correo se especifica en [CU-08](../../docs/drivers.md#cu-08))
+
+  Escenario: El estudiante consulta el estado de su postulación
+    Dado que el estudiante envió una postulación
+    Cuando consulta el estado de su postulación
+    Entonces ve el estado actual de la postulación
+    Y si el estado es "no cumple requisitos", ve qué requisitos le faltan
+
+  Escenario: El estudiante consulta sin haber postulado
+    Dado que el estudiante no tiene ninguna postulación
+    Cuando consulta el estado de su postulación
+    Entonces se le informa que aún no tiene postulaciones
+
+  Escenario: El usuario no es un estudiante y consulta el estado
+    Dado un usuario autenticado con rol de docente asesor
+    Cuando intenta consultar el estado de una postulación
+    Entonces el acceso se deniega
+    Y el intento queda registrado en la bitácora
