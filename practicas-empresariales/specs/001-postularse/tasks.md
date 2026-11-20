@@ -12,7 +12,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-06 | Puerto `Bitacora` (Protocol) | `src/aplicacion/puertos/bitacora.py` | Flujo básico, no es estudiante | — |
 | [x] | T-07 | DTO `PostulacionEntrada` | `src/aplicacion/dto/postulacion_entrada.py` | Todos | — |
 | [x] | T-08 | DTO `PostulacionSalida` | `src/aplicacion/dto/postulacion_salida.py` | Flujo básico, SIA caído | — |
-| [ ] | T-09 | Caso de uso `PostularseAPractica`: rol, autorización de datos, unicidad, reglas publicadas; guarda postulación y tarea; registra en bitácora | `src/aplicacion/postularse_a_practica.py` | Sin autorización, ya activa, sin reglas, no estudiante, confirmación < 2 s | T-02…T-08 |
+| [x] | T-09 | Caso de uso `PostularseAPractica`: rol, autorización de datos, unicidad, reglas publicadas; guarda postulación y tarea; registra en bitácora | `src/aplicacion/postularse_a_practica.py` | Sin autorización, ya activa, sin reglas, no estudiante, confirmación < 2 s | T-02…T-08 |
 | [ ] | T-10 | Caso de uso `VerificarPostulacion`: consulta el SIA (4 s), actualiza estado, reprograma con espera creciente, marca fallida tras 8 intentos | `src/aplicacion/verificar_postulacion.py` | Flujo básico, no cumple, SIA caído, reintentos agotados | T-02…T-06 |
 | [ ] | T-11 | Adaptador en memoria del SIA (configurable: responde, falla o tarda) | `src/infraestructura/consulta_academica_en_memoria.py` | SIA caído | T-04 |
 | [ ] | T-12 | Adaptador en memoria del repositorio | `src/infraestructura/repositorio_postulaciones_en_memoria.py` | Todos | T-05 |
