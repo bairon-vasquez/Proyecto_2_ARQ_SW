@@ -10,7 +10,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-04 | Puerto `ConsultaAcademica` (Protocol) | `src/aplicacion/puertos/consulta_academica.py` | Flujo básico, no cumple, SIA caído | T-02 |
 | [x] | T-05 | Puerto `RepositorioPostulaciones` (Protocol), incluye tareas pendientes | `src/aplicacion/puertos/repositorio_postulaciones.py` | Todos | T-02, T-03 |
 | [x] | T-06 | Puerto `Bitacora` (Protocol) | `src/aplicacion/puertos/bitacora.py` | Flujo básico, no es estudiante | — |
-| [ ] | T-07 | DTO `PostulacionEntrada` | `src/aplicacion/dto/postulacion_entrada.py` | Todos | — |
+| [x] | T-07 | DTO `PostulacionEntrada` | `src/aplicacion/dto/postulacion_entrada.py` | Todos | — |
 | [ ] | T-08 | DTO `PostulacionSalida` | `src/aplicacion/dto/postulacion_salida.py` | Flujo básico, SIA caído | — |
 | [ ] | T-09 | Caso de uso `PostularseAPractica`: rol, autorización de datos, unicidad, reglas publicadas; guarda postulación y tarea; registra en bitácora | `src/aplicacion/postularse_a_practica.py` | Sin autorización, ya activa, sin reglas, no estudiante, confirmación < 2 s | T-02…T-08 |
 | [ ] | T-10 | Caso de uso `VerificarPostulacion`: consulta el SIA (4 s), actualiza estado, reprograma con espera creciente, marca fallida tras 8 intentos | `src/aplicacion/verificar_postulacion.py` | Flujo básico, no cumple, SIA caído, reintentos agotados | T-02…T-06 |
