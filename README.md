@@ -31,5 +31,5 @@ practicas-empresariales/
 
 ## Notas
 - Los diagramas `.puml` no se renderizaron aquí: ábrelos con la extensión PlantUML de VS Code.
-- `validacion.md` de `001-postularse` ya está llena; 11 pruebas pytest pasan; quedan abiertos H-04 y H-05.
+- `validacion.md` de `001-postularse` ya está llena; 17 pruebas pytest pasan; solo queda abierto H-05 (versión de Python).
 - Algunos supuestos (catálogo tecnológico, políticas vigentes) están declarados en la visión (S-09, S-10) y deben validarse con el Área de Sistemas.

@@ -27,7 +27,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-21 | Adaptador en memoria: `buscar_ultima_postulacion` (H-04) | `src/infraestructura/repositorio_postulaciones_en_memoria.py` | Consulta de estado | T-12, T-20 |
 | [x] | T-22 | Caso de uso `ConsultarEstadoPostulacion`: rol estudiante, última postulación propia, requisitos faltantes, sin postulaciones | `src/aplicacion/consultar_estado_postulacion.py` | Consulta de estado, sin postulación, no estudiante | T-18…T-21 |
 | [x] | T-23 | Pruebas `pytest` de los tres escenarios de consulta | `tests/test_consultar_estado.py` | Consulta de estado, sin postulación, no estudiante | T-22 |
-| [ ] | T-24 | Revalidación final: `validacion.md` con los 11 escenarios | `specs/001-postularse/validacion.md` | Todos | T-23 |
+| [x] | T-24 | Revalidación final: `validacion.md` con los 11 escenarios | `specs/001-postularse/validacion.md` | Todos | T-23 |
 
 > T-14 y T-17 fueron rondas de validación; T-15 a T-17 salen de H-01 y H-02, y T-18 a T-24 resuelven H-04 (consulta del estado en la aplicación).
 
