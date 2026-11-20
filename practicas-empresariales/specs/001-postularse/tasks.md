@@ -19,7 +19,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-13 | Adaptador en memoria de la bitácora | `src/infraestructura/bitacora_en_memoria.py` | Flujo básico, no es estudiante | T-06 |
 | [x] | T-14 | Validación: `validacion.md` con evidencia por escenario y revisión de la regla de dependencia | `specs/001-postularse/validacion.md` | Todos | T-01…T-13 |
 | [x] | T-15 | Procesador de tareas: sondea las tareas listas cada 15 s e invoca `VerificarPostulacion` (hallazgo H-01) | `src/infraestructura/procesador_de_tareas.py` | SIA caído, reintentos agotados | T-10, T-12 |
-| [ ] | T-16 | Pruebas `pytest` de los escenarios de `spec.md` (hallazgo H-02) | `tests/test_postularse.py` | Todos | T-01…T-15 |
+| [x] | T-16 | Pruebas `pytest` de los escenarios de `spec.md` (hallazgo H-02) | `tests/test_postularse.py` | Todos | T-01…T-15 |
 | [ ] | T-17 | Revalidación: actualizar `validacion.md` con la evidencia de las pruebas | `specs/001-postularse/validacion.md` | Todos | T-15, T-16 |
 
 > T-14 fue la primera ronda de validación; T-15 a T-17 salen de sus hallazgos H-01 y H-02.
