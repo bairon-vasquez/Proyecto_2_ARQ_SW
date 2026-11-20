@@ -24,6 +24,7 @@ Característica: Postularse a la práctica empresarial
     Cuando envía su postulación
     Entonces la postulación queda en estado "no cumple requisitos"
     Y se le indica qué requisito falta
+    # [NECESITA ACLARACIÓN: ¿cómo se entera el estudiante del requisito faltante, si la verificación es asíncrona? (consulta del estado en la aplicación, correo u otro). Hallazgo H-04 de validacion.md]
 
   Escenario: El estudiante no autoriza el tratamiento de datos
     Dado que el estudiante no autorizó el tratamiento de sus datos personales

@@ -17,7 +17,12 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-11 | Adaptador en memoria del SIA (configurable: responde, falla o tarda) | `src/infraestructura/consulta_academica_en_memoria.py` | SIA caído | T-04 |
 | [x] | T-12 | Adaptador en memoria del repositorio | `src/infraestructura/repositorio_postulaciones_en_memoria.py` | Todos | T-05 |
 | [x] | T-13 | Adaptador en memoria de la bitácora | `src/infraestructura/bitacora_en_memoria.py` | Flujo básico, no es estudiante | T-06 |
-| [ ] | T-14 | Validación: `validacion.md` con evidencia por escenario y revisión de la regla de dependencia | `specs/001-postularse/validacion.md` | Todos | T-01…T-13 |
+| [x] | T-14 | Validación: `validacion.md` con evidencia por escenario y revisión de la regla de dependencia | `specs/001-postularse/validacion.md` | Todos | T-01…T-13 |
+| [ ] | T-15 | Procesador de tareas: sondea las tareas listas cada 15 s e invoca `VerificarPostulacion` (hallazgo H-01) | `src/infraestructura/procesador_de_tareas.py` | SIA caído, reintentos agotados | T-10, T-12 |
+| [ ] | T-16 | Pruebas `pytest` de los escenarios de `spec.md` (hallazgo H-02) | `tests/test_postularse.py` | Todos | T-01…T-15 |
+| [ ] | T-17 | Revalidación: actualizar `validacion.md` con la evidencia de las pruebas | `specs/001-postularse/validacion.md` | Todos | T-15, T-16 |
+
+> T-14 fue la primera ronda de validación; T-15 a T-17 salen de sus hallazgos H-01 y H-02.
 
 ## Cobertura de escenarios
 
@@ -29,5 +34,5 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | Ya tiene postulación activa | T-09, T-12 |
 | Programa sin reglas publicadas | T-09 |
 | Usuario no es estudiante | T-06, T-09, T-13 |
-| SIA no responde ([EAC-02](../../docs/drivers.md#eac-02)) | T-03, T-09, T-10, T-11 |
-| Reintentos agotados | T-03, T-10 |
+| SIA no responde ([EAC-02](../../docs/drivers.md#eac-02)) | T-03, T-09, T-10, T-11, T-15 |
+| Reintentos agotados | T-03, T-10, T-15 |

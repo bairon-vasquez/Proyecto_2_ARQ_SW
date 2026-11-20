@@ -24,6 +24,7 @@ Traza: [spec.md](spec.md) · [drivers.md](../../docs/drivers.md) · [arquitectur
 | aplicacion/puertos | `ConsultaAcademica`, `RepositorioPostulaciones`, `Bitacora` | Contratos que declara la aplicación |
 | dominio | `TareaPendiente` | Tarea con intentos y próximo intento ([ADR-003](../../docs/adr/ADR-003-integraciones-outbox.md)) |
 | infraestructura | `ConsultaAcademicaEnMemoria`, `RepositorioPostulacionesEnMemoria`, `BitacoraEnMemoria` | Adaptadores simulados |
+| infraestructura | `ProcesadorDeTareas` | Procesador de tareas de la vista de desarrollo y de ESC-01: sondea cada 15 s las tareas listas e invoca `VerificarPostulacion` (agregado tras el hallazgo H-01 de `validacion.md`) |
 
 ## 3. Flujo
 

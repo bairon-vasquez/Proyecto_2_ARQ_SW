@@ -31,5 +31,5 @@ practicas-empresariales/
 
 ## Notas
 - Los diagramas `.puml` no se renderizaron aquí: ábrelos con la extensión PlantUML de VS Code.
-- `validacion.md` está pendiente hasta implementar las tareas.
+- `validacion.md` de `001-postularse` ya está llena; ver sus hallazgos H-01 a H-06.
 - Algunos supuestos (catálogo tecnológico, políticas vigentes) están declarados en la visión (S-09, S-10) y deben validarse con el Área de Sistemas.
