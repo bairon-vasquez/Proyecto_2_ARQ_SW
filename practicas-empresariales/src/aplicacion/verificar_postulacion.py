@@ -59,7 +59,7 @@ class VerificarPostulacion:
             )
 
         if faltantes:
-            postulacion.marcar_no_cumple_requisitos()
+            postulacion.marcar_no_cumple_requisitos(faltantes)
             mensaje = "No cumple requisitos. Falta: " + ", ".join(faltantes)
         else:
             postulacion.marcar_verificada()
