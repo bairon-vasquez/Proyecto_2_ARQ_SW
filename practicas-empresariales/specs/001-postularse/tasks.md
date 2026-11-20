@@ -7,7 +7,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-01 | Enumeración `EstadoPostulacion` (pendiente de verificación, verificada, no cumple requisitos, aprobada, rechazada) | `src/dominio/estado_postulacion.py` | Todos | — |
 | [x] | T-02 | Entidad `Postulacion` con transiciones válidas de estado | `src/dominio/postulacion.py` | Flujo básico, no cumple, SIA caído | T-01 |
 | [x] | T-03 | Entidad `TareaPendiente` con intentos, próximo intento y estado | `src/dominio/tarea_pendiente.py` | SIA caído, reintentos agotados | — |
-| [ ] | T-04 | Puerto `ConsultaAcademica` (Protocol) | `src/aplicacion/puertos/consulta_academica.py` | Flujo básico, no cumple, SIA caído | T-02 |
+| [x] | T-04 | Puerto `ConsultaAcademica` (Protocol) | `src/aplicacion/puertos/consulta_academica.py` | Flujo básico, no cumple, SIA caído | T-02 |
 | [ ] | T-05 | Puerto `RepositorioPostulaciones` (Protocol), incluye tareas pendientes | `src/aplicacion/puertos/repositorio_postulaciones.py` | Todos | T-02, T-03 |
 | [ ] | T-06 | Puerto `Bitacora` (Protocol) | `src/aplicacion/puertos/bitacora.py` | Flujo básico, no es estudiante | — |
 | [ ] | T-07 | DTO `PostulacionEntrada` | `src/aplicacion/dto/postulacion_entrada.py` | Todos | — |
