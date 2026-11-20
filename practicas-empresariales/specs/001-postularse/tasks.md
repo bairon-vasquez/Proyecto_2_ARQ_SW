@@ -23,7 +23,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-17 | Revalidación: actualizar `validacion.md` con la evidencia de las pruebas | `specs/001-postularse/validacion.md` | Todos | T-15, T-16 |
 | [x] | T-18 | `Postulacion` guarda los requisitos faltantes al marcarse "no cumple requisitos" (H-04) | `src/dominio/postulacion.py` | No cumple, consulta de estado | T-02 |
 | [x] | T-19 | `VerificarPostulacion` pasa los requisitos faltantes a la postulación (H-04) | `src/aplicacion/verificar_postulacion.py` | No cumple, consulta de estado | T-10, T-18 |
-| [ ] | T-20 | Puerto `RepositorioPostulaciones`: método `buscar_ultima_postulacion` (H-04) | `src/aplicacion/puertos/repositorio_postulaciones.py` | Consulta de estado | T-05 |
+| [x] | T-20 | Puerto `RepositorioPostulaciones`: método `buscar_ultima_postulacion` (H-04) | `src/aplicacion/puertos/repositorio_postulaciones.py` | Consulta de estado | T-05 |
 | [ ] | T-21 | Adaptador en memoria: `buscar_ultima_postulacion` (H-04) | `src/infraestructura/repositorio_postulaciones_en_memoria.py` | Consulta de estado | T-12, T-20 |
 | [ ] | T-22 | Caso de uso `ConsultarEstadoPostulacion`: rol estudiante, última postulación propia, requisitos faltantes, sin postulaciones | `src/aplicacion/consultar_estado_postulacion.py` | Consulta de estado, sin postulación, no estudiante | T-18…T-21 |
 | [ ] | T-23 | Pruebas `pytest` de los tres escenarios de consulta | `tests/test_consultar_estado.py` | Consulta de estado, sin postulación, no estudiante | T-22 |

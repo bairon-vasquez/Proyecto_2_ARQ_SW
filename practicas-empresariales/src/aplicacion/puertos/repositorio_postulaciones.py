@@ -30,6 +30,10 @@ class RepositorioPostulaciones(Protocol):
         """Postulación pendiente de verificación o verificada del estudiante."""
         ...
 
+    def buscar_ultima_postulacion(self, estudiante_id: str) -> Postulacion | None:
+        """Postulación más reciente del estudiante, en cualquier estado."""
+        ...
+
     def tareas_listas(self, ahora: datetime) -> list[TareaPendiente]:
         """Tareas pendientes cuyo próximo intento ya llegó."""
         ...
