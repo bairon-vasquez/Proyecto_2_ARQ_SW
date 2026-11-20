@@ -28,14 +28,16 @@ class Postulacion:
     version_reglas: str
     fecha: datetime = field(default_factory=datetime.now)
     estado: EstadoPostulacion = EstadoPostulacion.PENDIENTE_DE_VERIFICACION
+    requisitos_faltantes: list[str] = field(default_factory=list)
 
     def marcar_verificada(self) -> None:
         """El SIA confirmó que el estudiante cumple los requisitos."""
         self._transicionar(EstadoPostulacion.VERIFICADA)
 
-    def marcar_no_cumple_requisitos(self) -> None:
-        """El SIA indicó que al estudiante le faltan requisitos."""
+    def marcar_no_cumple_requisitos(self, faltantes: list[str] | None = None) -> None:
+        """El SIA indicó que al estudiante le faltan requisitos; se guardan."""
         self._transicionar(EstadoPostulacion.NO_CUMPLE_REQUISITOS)
+        self.requisitos_faltantes = list(faltantes or [])
 
     def esta_activa(self) -> bool:
         """Activa = pendiente de verificación o verificada (spec: unicidad)."""
