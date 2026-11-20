@@ -16,7 +16,7 @@ Orden de adentro hacia afuera. Cada tarea toca **un solo archivo**.
 | [x] | T-10 | Caso de uso `VerificarPostulacion`: consulta el SIA (4 s), actualiza estado, reprograma con espera creciente, marca fallida tras 8 intentos | `src/aplicacion/verificar_postulacion.py` | Flujo básico, no cumple, SIA caído, reintentos agotados | T-02…T-06 |
 | [x] | T-11 | Adaptador en memoria del SIA (configurable: responde, falla o tarda) | `src/infraestructura/consulta_academica_en_memoria.py` | SIA caído | T-04 |
 | [x] | T-12 | Adaptador en memoria del repositorio | `src/infraestructura/repositorio_postulaciones_en_memoria.py` | Todos | T-05 |
-| [ ] | T-13 | Adaptador en memoria de la bitácora | `src/infraestructura/bitacora_en_memoria.py` | Flujo básico, no es estudiante | T-06 |
+| [x] | T-13 | Adaptador en memoria de la bitácora | `src/infraestructura/bitacora_en_memoria.py` | Flujo básico, no es estudiante | T-06 |
 | [ ] | T-14 | Validación: `validacion.md` con evidencia por escenario y revisión de la regla de dependencia | `specs/001-postularse/validacion.md` | Todos | T-01…T-13 |
 
 ## Cobertura de escenarios
